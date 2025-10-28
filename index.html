@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zaki Irsyada Putra - Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 80px;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: #0a0a0a;
+            color: #fff;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Smooth Background */
+        .bg-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at top, #1a0000 0%, #0a0a0a 50%, #000000 100%);
+            z-index: -2;
+        }
+
+        .bg-accent {
+            position: fixed;
+            top: -50%;
+            right: -20%;
+            width: 80%;
+            height: 150%;
+            background: radial-gradient(circle, rgba(220, 38, 38, 0.15) 0%, transparent 70%);
+            filter: blur(100px);
+            z-index: -1;
+            animation: float-accent 20s ease-in-out infinite;
+        }
+
+        @keyframes float-accent {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            50% { transform: translate(-100px, 100px) rotate(5deg); }
+        }
+
+        /* Floating Doodles */
+        .doodles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .doodle {
+            position: absolute;
+            font-size: 3rem;
+            opacity: 0.08;
+            animation: float-doodle 30s infinite ease-in-out;
+        }
+
+        .doodle:nth-child(1) { left: 10%; top: 20%; animation-delay: 0s; }
+        .doodle:nth-child(2) { left: 80%; top: 10%; animation-delay: 3s; animation-duration: 25s; }
+        .doodle:nth-child(3) { left: 15%; top: 60%; animation-delay: 6s; animation-duration: 35s; }
+        .doodle:nth-child(4) { left: 70%; top: 70%; animation-delay: 2s; }
+        .doodle:nth-child(5) { left: 50%; top: 30%; animation-delay: 8s; animation-duration: 28s; }
+        .doodle:nth-child(6) { left: 30%; top: 80%; animation-delay: 4s; }
+        .doodle:nth-child(7) { left: 85%; top: 50%; animation-delay: 10s; animation-duration: 32s; }
+        .doodle:nth-child(8) { left: 5%; top: 40%; animation-delay: 5s; }
+
+        @keyframes float-doodle {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-30px) rotate(10deg); }
+        }
+
+        /* Red Eyes */
+        .eyes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .eye {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            gap: 15px;
+        }
+
+        .eye::before,
+        .eye::after {
+            content: '';
+            width: 12px;
+            height: 12px;
+            background: radial-gradient(circle, #ff0000 0%, #cc0000 50%, transparent 70%);
+            border-radius: 50%;
+            box-shadow: 0 0 20px #ff0000, 0 0 40px rgba(255, 0, 0, 0.5);
+            animation: blink 4s infinite;
+            opacity: 0.15;
+        }
+
+        .eye:nth-child(1) { left: 15%; top: 25%; animation-delay: 0s; }
+        .eye:nth-child(2) { left: 75%; top: 15%; animation-delay: 1.5s; }
+        .eye:nth-child(3) { left: 25%; top: 65%; animation-delay: 3s; }
+        .eye:nth-child(4) { left: 85%; top: 55%; animation-delay: 2s; }
+        .eye:nth-child(5) { left: 50%; top: 80%; animation-delay: 4s; }
+        .eye:nth-child(6) { left: 10%; top: 45%; animation-delay: 2.5s; }
+        .eye:nth-child(7) { left: 65%; top: 35%; animation-delay: 3.5s; }
+
+        @keyframes blink {
+            0%, 45%, 55%, 100% { 
+                opacity: 0.15;
+                transform: scaleY(1);
+            }
+            48%, 52% { 
+                opacity: 0;
+                transform: scaleY(0.1);
+            }
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.5rem 3rem;
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        nav.scrolled {
+            padding: 1rem 3rem;
+            background: rgba(10, 10, 10, 0.95);
+        }
+
+        nav .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #dc2626, #ef4444);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        nav ul {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        nav a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        nav a:hover {
+            color: #dc2626;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #dc2626;
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 3rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding-top: 80px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-text h1 {
+            font-size: 4.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+        }
+
+        .hero-text .gradient-text {
+            background: linear-gradient(135deg, #dc2626, #ef4444, #f87171);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-text p {
+            font-size: 1.25rem;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 2.5rem;
+            line-height: 1.8;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .btn {
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #dc2626, #b91c1c);
+            color: white;
+            box-shadow: 0 10px 30px rgba(220, 38, 38, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(220, 38, 38, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: rgba(255, 255, 255, 0.9);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-secondary:hover {
+            border-color: #dc2626;
+            color: #dc2626;
+        }
+
+        .hero-visual {
+            position: relative;
+        }
+
+        .profile-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+            padding: 3rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .profile-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(220, 38, 38, 0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .profile-img {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 2rem;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #dc2626, #ef4444);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .profile-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stat-item h3 {
+            font-size: 2rem;
+            color: #dc2626;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-item p {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Section */
+        section {
+            padding: 8rem 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 5rem;
+        }
+
+        .section-tag {
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            background: rgba(220, 38, 38, 0.1);
+            border: 1px solid rgba(220, 38, 38, 0.2);
+            border-radius: 50px;
+            color: #dc2626;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .section-title {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.5);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* About Section */
+        .about-content {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+            padding: 3rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .about-content p {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.9;
+            text-align: justify;
+            margin-bottom: 1.5rem;
+        }
+
+        .about-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Skills Section */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .skill-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
+            padding: 2.5rem;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .skill-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(220, 38, 38, 0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .skill-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(220, 38, 38, 0.3);
+        }
+
+        .skill-card:hover::before {
+            opacity: 1;
+        }
+
+        .skill-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        .skill-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .skill-card p {
+            color: rgba(255, 255, 255, 0.6);
+            line-height: 1.7;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Projects Section */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .project-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(220, 38, 38, 0.3);
+        }
+
+        .project-img {
+            width: 100%;
+            height: 220px;
+            background: linear-gradient(135deg, rgba(220, 38, 38, 0.2), rgba(239, 68, 68, 0.1));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .project-content {
+            padding: 2rem;
+        }
+
+        .project-content h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .project-content p {
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+        }
+
+        .project-tags {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            padding: 0.5rem 1rem;
+            background: rgba(220, 38, 38, 0.1);
+            border: 1px solid rgba(220, 38, 38, 0.2);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Contact Section */
+        .contact-content {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .contact-form {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+            padding: 3rem;
+        }
+
+        .form-group {
+            margin-bottom: 2rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.75rem;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: rgba(220, 38, 38, 0.5);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .social-link {
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background: rgba(220, 38, 38, 0.2);
+            border-color: rgba(220, 38, 38, 0.5);
+            transform: translateY(-5px);
+        }
+
+        /* Footer */
+        footer {
+            padding: 3rem 0;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .hero-text h1 {
+                font-size: 3.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1.5rem;
+            }
+
+            nav {
+                padding: 1rem 1.5rem;
+            }
+
+            nav ul {
+                gap: 1.5rem;
+            }
+
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .skills-grid,
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background -->
+    <div class="bg-gradient"></div>
+    <div class="bg-accent"></div>
+
+    <!-- Floating Doodles -->
+    <div class="doodles">
+        <div class="doodle">💻</div>
+        <div class="doodle">📊</div>
+        <div class="doodle">🚀</div>
+        <div class="doodle">💰</div>
+        <div class="doodle">📈</div>
+        <div class="doodle">⚡</div>
+        <div class="doodle">💡</div>
+        <div class="doodle">✨</div>
+    </div>
+
+    <!-- Red Eyes -->
+    <div class="eyes">
+        <div class="eye"></div>
+        <div class="eye"></div>
+        <div class="eye"></div>
+        <div class="eye"></div>
+        <div class="eye"></div>
+        <div class="eye"></div>
+        <div class="eye"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav id="nav">
+        <div class="container">
+            <div class="logo">ZI</div>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#projects">Projects</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>Hi, I'm <span class="gradient-text">Zaki Irsyada Putra</span></h1>
+                    <p>Mahasiswa Sistem Informasi yang memadukan teknologi dengan investasi. Membangun solusi digital sambil mengelola portfolio saham, crypto, dan aset finansial.</p>
+                    <div class="hero-buttons">
+                        <a href="#projects" class="btn btn-primary">Lihat Portfolio</a>
+                        <a href="#about" class="btn btn-secondary">Tentang Saya</a>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="profile-card">
+                        <div class="profile-img">
+                            <img src="https://i.ibb.co.com/Wv0DYBPV/1759471833119.png" alt="Zaki Irsyada Putra">
+                        </div>
+                        <div class="stats">
+                            <div class="stat-item">
+                                <h3>3+</h3>
+                                <p>Years Experience</p>
+                            </div>
+                            <div class="stat-item">
+                                <h3>15+</h3>
+                                <p>Projects</p>
+                            </div>
+                            <div class="stat-item">
+                                <h3>∞</h3>
+                                <p>Coffee Cups</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Tentang Saya</span>
+                <h2 class="section-title">Who Am I?</h2>
+            </div>
+            <div class="about-content">
+                <p>Zaki adalah sosok yang memadukan logika teknologi dengan insting investasi. Sebagai mahasiswa IT yang juga aktif berinvestasi di saham, crypto, obligasi, dan emas, dia punya gaya berpikir yang analitis tapi tetap berani ambil risiko. Ia melihat dunia bukan cuma dari satu sisi, tapi dari pola dan peluang di balik data. Di balik layar komputer dan grafik harga yang naik turun, ada kepala dingin yang menghitung risiko, dan ada idealisme yang mau bikin sistem keuangan jadi lebih inklusif lewat ide-ide bisnisnya.</p>
+                
+                <p>Dalam kesehariannya, Zaki punya kecenderungan untuk bekerja cepat, efisien, dan rasional—kadang terlalu rasional sampai bikin orang lain merasa dia "terlalu to the point." Tapi di balik sikap itu, ada rasa ingin tahu tinggi dan keinginan untuk terus berkembang. Ia bukan tipe yang puas dengan teori, tapi pengen bukti konkret. Gagal bagi dia bukan akhir, tapi iterasi. Mungkin sedikit keras kepala, tapi justru itu yang bikin dia jarang stuck lama di masalah yang sama.</p>
+                
+                <p>Zaki juga punya sisi visioner yang muncul lewat proyek-proyeknya seperti <i>RedCroc Bite</i> dan <i>LahKaya</i>—dua ide bisnis yang menggambarkan perpaduan antara sustainability, edukasi finansial, dan teknologi. Ia nggak cuma mau sukses pribadi, tapi juga pengen bikin sistem yang berdampak luas. Buat Zaki, masa depan bukan cuma tentang siapa yang paling cepat adaptasi, tapi siapa yang paling siap bikin perubahan berarti.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Keahlian</span>
+                <h2 class="section-title">What I Do</h2>
+                <p class="section-subtitle">Kombinasi skills di teknologi, bisnis, dan finansial</p>
+            </div>
+            <div class="skills-grid">
+                <div class="skill-card">
+                    <span class="skill-icon">💻</span>
+                    <h3>Programming & Development</h3>
+                    <p>C#, Python, JavaScript, PHP, HTML, CSS, React.js untuk membangun solusi digital yang fungsional dan scalable.</p>
+                </div>
+                <div class="skill-card">
+                    <span class="skill-icon">🗄️</span>
+                    <h3>Database Management</h3>
+                    <p>MySQL, Firebase, MongoDB untuk desain dan optimasi database yang efisien dan terstruktur.</p>
+                </div>
+                <div class="skill-card">
+                    <span class="skill-icon">🌐</span>
+                    <h3>Networking & Infrastructure</h3>
+                    <p>Routing, subnetting, server setup, cloud connection menggunakan Cisco Packet Tracer dan teknologi jaringan.</p>
+                </div>
+                <div class="skill-card">
+                    <span class="skill-icon">💰</span>
+                    <h3>Investment Analysis</h3>
+                    <p>Analisis crypto & stock market, portfolio diversification, fundamental & technical analysis untuk keputusan investasi yang terukur.</p>
+                </div>
+                <div class="skill-card">
+                    <span class="skill-icon">🎨</span>
+                    <h3>UI/UX Design</h3>
+                    <p>Figma, Canva untuk menciptakan user experience yang intuitif berbasis user behavior dan desain modern.</p>
+                </div>
+                <div class="skill-card">
+                    <span class="skill-icon">🚀</span>
+                    <h3>Project Management</h3>
+                    <p>Business model canvas, SWOT analysis, financial projection, dan leadership dalam manajemen tim lintas bidang.</p>
+                </div>
+                <div class="skill-card">
+                    <span class="skill-icon">📊</span>
+                    <h3>Data & API Integration</h3>
+                    <p>Integrasi API pasar modal, crypto tracker, dan IoT sensor monitoring untuk dashboard real-time.</p>
+                </div>
+                <div class="skill-card">
+                    <span class="skill-icon">🌱</span>
+                    <h3>Sustainability Framework</h3>
+                    <p>Circular economy design, environmental awareness, dan pengembangan solusi berbasis keberlanjutan lingkungan.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Portfolio</span>
+                <h2 class="section-title">Featured Projects</h2>
+                <p class="section-subtitle">Karya dan ide bisnis yang sedang dikembangkan</p>
+            </div>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-img">🐊</div>
+                    <div class="project-content">
+                        <h3>RedCroc Bite</h3>
+                        <p>Platform berbasis web yang mengintegrasikan teknologi agrifood dengan konsep circular economy. Memantau kesehatan tanaman hidroponik real-time, pemesanan hasil panen segar, dan pengolahan limbah makanan menjadi pupuk organik.</p>
+                        <div class="project-tags">
+                            <span class="tag">Founder</span>
+                            <span class="tag">PHP</span>
+                            <span class="tag">Firebase</span>
+                            <span class="tag">IoT</span>
+                            <span class="tag">Sustainability</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-img">💎</div>
+                    <div class="project-content">
+                        <h3>LahKaya</h3>
+                        <p>Aplikasi fintech edukatif untuk meningkatkan literasi keuangan Indonesia. Menyediakan analisis investasi digital, edukasi pasar modal, dan simulasi portofolio untuk pengguna pemula dengan gamification.</p>
+                        <div class="project-tags">
+                            <span class="tag">Project Leader</span>
+                            <span class="tag">React.js</span>
+                            <span class="tag">Python</span>
+                            <span class="tag">Figma</span>
+                            <span class="tag">FinTech</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-img">🌐</div>
+                    <div class="project-content">
+                        <h3>Cisco Network Simulation</h3>
+                        <p>Simulasi jaringan kompleks menggunakan 1 server, 1 cloud, 1 modem, 3 router, dan 3 topologi dengan IP addressing terstruktur. Menguji kemampuan routing dan keamanan jaringan pada skala menengah.</p>
+                        <div class="project-tags">
+                            <span class="tag">Network Engineer</span>
+                            <span class="tag">Cisco Packet Tracer</span>
+                            <span class="tag">Routing</span>
+                            <span class="tag">Subnetting</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-img">📊</div>
+                    <div class="project-content">
+                        <h3>Portfolio Tracker Dashboard</h3>
+                        <p>Dashboard analitik real-time untuk tracking portfolio investasi crypto dan saham dengan integrasi API pasar modal, data visualization, dan automated alerts untuk keputusan investasi yang lebih baik.</p>
+                        <div class="project-tags">
+                            <span class="tag">Python</span>
+                            <span class="tag">API Integration</span>
+                            <span class="tag">Data Viz</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-img">🎯</div>
+                    <div class="project-content">
+                        <h3>Business Model Analysis</h3>
+                        <p>Penyusunan business model canvas, SWOT analysis, dan financial projection untuk berbagai startup dan proyek bisnis dengan fokus pada sustainability dan social impact.</p>
+                        <div class="project-tags">
+                            <span class="tag">Business Strategy</span>
+                            <span class="tag">Financial Analysis</span>
+                            <span class="tag">Planning</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-img">🌱</div>
+                    <div class="project-content">
+                        <h3>IoT Hydroponics Monitor</h3>
+                        <p>Sistem monitoring tanaman hidroponik menggunakan IoT sensor untuk memantau suhu, kelembaban, pH air, dan nutrisi secara real-time dengan dashboard web interaktif.</p>
+                        <div class="project-tags">
+                            <span class="tag">IoT</span>
+                            <span class="tag">Sensor Integration</span>
+                            <span class="tag">JavaScript</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Zaki Irsyada Putra. Made with ❤️ by Mahasiswa SI</p>
+        </div>
+    </footer>
